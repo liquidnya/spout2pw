@@ -1,14 +1,19 @@
 [submodule "subprojects/libfunnel"]
 	path = subprojects/libfunnel
 	url = https://github.com/hoshinolina/libfunnel
+	branch = main
 
 [submodule "subprojects/pipewire-static"]
 	path = subprojects/pipewire-static
 	url = https://github.com/hoshinolina/pipewire-static
+	branch = master
 
 [submodule "subprojects/spoutdxtoc/Spout2"]
 	path = subprojects/spoutdxtoc/Spout2
 	url = https://github.com/leadedge/Spout2
+	branch = master
+
 [submodule "subprojects/spoutdxtoc"]
 	path = subprojects/spoutdxtoc
 	url = https://github.com/tasokait/spoutdxtoc.git
+	branch = main
