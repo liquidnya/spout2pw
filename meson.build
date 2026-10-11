@@ -96,7 +96,7 @@ unix_link_args = ifpwstatic ? [
         '-Wl,--whole-archive',
         '-Wl,--no-whole-archive',
     ]
-pipewire = ifpwstatic ? dependency('libpipewire-static-0.3', native: true, static: true) : dependency('libpipewire-0.3', native: true, static: true)
+pipewire = ifpwstatic ? dependency('libpipewire-static-0.3', native: true, static: true) : dependency('libpipewire-0.3', native: true, static: false)
 
 windows_deps = [
   c.find_library('d3d11', dirs: wine_lib_paths),
@@ -129,6 +129,7 @@ spout2pw_bin = executable(
   link_args: windows_link_args,
   dependencies: [windows_deps],
   win_subsystem: 'console',
+  # include_directories: ['/nix/store/70gg5639vl0vrh52jc4ivb18rab3z5hq-vulkan-headers-1.4.357.0/include'],
 )
 
 unixlib = shared_library(
