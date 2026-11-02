@@ -21,8 +21,20 @@ runs:
         set -e
 
         echo ::group::Install Dependencies
-        sudo apt update
-        sudo apt install ccache meson ninja-build libdbus-1-dev libwine-dev wine64-tools mingw-w64 libgbm-dev libdrm-dev libvulkan-dev zsh
+        sudo apt-get update
+        sudo apt-get install ccache meson ninja-build libdbus-1-dev libwine-dev mingw-w64 libgbm-dev libdrm-dev libvulkan-dev wine64-tools mingw-w64-tools pkg-config
+        echo ::endgroup::
+        echo ::group::Install Vulkan Headers for mingw32
+        from=/usr/include
+        to=/usr/x86_64-w64-mingw32/include
+        for file in $(sudo dpkg -L libvulkan-dev); do
+          if [[ "$file" == "$from"/* && -f "$file" ]]; then
+            dest="$to${file#"$from"}"
+            echo "${file} -> ${dest}"
+            sudo mkdir -p "$(dirname $dest)"
+            sudo cp $file $dest
+          fi
+        done
         echo ::endgroup::
 
     - name: Run Build

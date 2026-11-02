@@ -23,7 +23,7 @@ This creates a package at `build/pkg`.
 
 ## Build dependencies
 
-On Debian: `sudo apt install meson ninja-build libdbus-1-dev libwine-dev mingw-w64 libgbm-dev libdrm-dev libvulkan-dev wine64-tools`
+On Debian: `sudo apt-get install meson ninja-build libdbus-1-dev libwine-dev mingw-w64 libgbm-dev libdrm-dev libvulkan-dev wine64-tools`
 
 ## Credits
 Original author:
