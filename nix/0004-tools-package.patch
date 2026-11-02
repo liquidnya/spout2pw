@@ -7,7 +7,7 @@ index 5126089..d80119e 100644
  set -e
  
 -PKGDIR="${MESON_BUILD_ROOT}/pkg"
-+PKGDIR="$out/share/spout2pw"
++PKGDIR="$out/share/spoutwire"
  
  mkdir -p "$PKGDIR"
  cd "$PKGDIR"

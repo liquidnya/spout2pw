@@ -18,7 +18,7 @@
   withWine ? wineWow64Packages.staging,
 }:
 stdenv.mkDerivation (finalAttrs: {
-  pname = "spout2pw";
+  pname = "spoutwire";
   version = "0.3.0";
 
   src = ./..;
@@ -29,11 +29,6 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     vulkan-headers
     makeWrapper
-    libgbm
-    libdrm
-    vulkan-loader
-    pipewire
-    pkg-config
   ];
 
   nativeBuildInputs = [
@@ -50,13 +45,12 @@ stdenv.mkDerivation (finalAttrs: {
     vulkan-loader
     pipewire
     withWine
-    pkg-config
   ];
 
   patches = [
     ./0001-mesa.patch
-    ./0002-spout2pw-path.patch
-    ./0003-spout2pw-usage.patch
+    ./0002-spoutwire-path.patch
+    ./0003-spoutwire-usage.patch
     ./0004-tools-package.patch
   ];
 
@@ -64,7 +58,7 @@ stdenv.mkDerivation (finalAttrs: {
     patchShebangs --build tools/get_wine_path.sh
     chmod +x tools/package.sh
     patchShebangs --build tools/package.sh
-    patchShebangs --host misc/spout2pw.sh
+    patchShebangs --host misc/spoutwire.sh
   '';
 
   mesonFlags = [
@@ -78,21 +72,21 @@ stdenv.mkDerivation (finalAttrs: {
 
   postInstall = ''
     mkdir -p $out/bin
-    makeWrapper $out/share/spout2pw/spout2pw.sh $out/bin/spout2pw \
-      --argv0 spout2pw \
+    makeWrapper $out/share/spoutwire/spoutwire.sh $out/bin/spoutwire \
+      --argv0 spoutwire \
       --prefix PATH : ${lib.makeBinPath finalAttrs.runtimeInputs}
   '';
 
   postFixup = ''
-    substituteInPlace $out/share/spout2pw/spout2pw.sh \
+    substituteInPlace $out/share/spoutwire/spoutwire.sh \
       --replace-fail '@MESA_PATH@' "${mesa}" \
-      --replace-fail '@SPOUT2PW_PATH@' "$out"
+      --replace-fail '@SPOUTWIRE_PATH@' "$out"
   '';
 
   meta = {
     description = "Spout2 to PipeWire video bridge";
     homepage = "https://github.com/tasokait/spout2pw";
-    mainProgram = "spout2pw";
+    mainProgram = "spoutwire";
     license = lib.licenses.lgpl21Plus;
   };
 })

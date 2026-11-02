@@ -8,7 +8,7 @@
 #endif
 #include <wchar.h>
 
-#include "spout2pw_unix.h"
+#include "spoutwire_unix.h"
 
 #include <winsvc.h>
 #include <winioctl.h>
@@ -18,7 +18,7 @@
 #include <spoutdxtoc.h>
 extern int CDECL wine_server_receive_fd( obj_handle_t *handle );
 
-static WCHAR spout2pwW[] = L"Spout2Pw";
+static WCHAR spoutwireW[] = L"spoutwire";
 static HANDLE exit_event;
 static SERVICE_STATUS_HANDLE service_handle;
 static SERVICE_STATUS service_status;
@@ -93,7 +93,7 @@ void show_error(HRESULT res, const char *msg) {
             msg = "Unknown fatal error";
             break;
         case STATUS_ACCESS_VIOLATION:
-            msg = "Spout2PW crashed (access violation)";
+            msg = "spoutwire crashed (access violation)";
             break;
         case STATUS_NO_SUCH_DEVICE:
             msg = "Device crashed or unavailable";
@@ -123,7 +123,7 @@ void show_error(HRESULT res, const char *msg) {
     // Hack: https://bugs.winehq.org/show_bug.cgi?id=59393
     AllocConsole();
 
-    MessageBoxA(NULL, dialog_msg, "Spout2PW error", MB_OK | MB_ICONERROR | MB_SERVICE_NOTIFICATION | MB_TOPMOST);
+    MessageBoxA(NULL, dialog_msg, "spoutwire error", MB_OK | MB_ICONERROR | MB_SERVICE_NOTIFICATION | MB_TOPMOST);
     TRACE("Message box returned\n");
 
     free(dialog_msg);
@@ -742,7 +742,7 @@ static void WINAPI ServiceMain(DWORD argc, LPWSTR *argv) {
     NTSTATUS ret;
     const char *msg = NULL;
 
-    service_handle = RegisterServiceCtrlHandlerExW(spout2pwW, service_handler, NULL);
+    service_handle = RegisterServiceCtrlHandlerExW(spoutwireW, service_handler, NULL);
     if (!service_handle)
         return;
 
@@ -844,7 +844,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     fflush(stderr);
     TRACE("WinMain entered\n");
     static const SERVICE_TABLE_ENTRYW service_table[] = {
-        {spout2pwW, ServiceMain}, {NULL, NULL}
+        {spoutwireW, ServiceMain}, {NULL, NULL}
     };
 
     bool found = false;
@@ -863,19 +863,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         }
         TRACE("Check DLL path: %s=%s\n", buf, val);
         size_t len = strlen(val);
-        const char *match = "\\spout2pw-dlls";
+        const char *match = "\\spoutwire-dlls";
         size_t mlen = strlen(match);
         if (len < mlen)
             continue;
         if (strcmp(val + len - mlen, match))
             continue;
-        TRACE("Spout2PW DLL path found\n");
+        TRACE("spoutwire DLL path found\n");
         found = 1;
         break;
     }
 
     // Also check WINEDLLPATH (semicolon-separated list of directories)
-    // find_builtin_dll() searches WINEDLLPATH for the matching spout2pw.so
+    // find_builtin_dll() searches WINEDLLPATH for the matching spoutwire.so
     {
         const char *winepath = getenv("WINEDLLPATH");
         TRACE("WINEDLLPATH=%s\n", winepath ? winepath : "(null)");
@@ -885,10 +885,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             char *dir = strtok(path_copy, ";:");
             while (dir) {
                 size_t len = strlen(dir);
-                const char *match = "\\spout2pw-dlls";
+                const char *match = "\\spoutwire-dlls";
                 size_t mlen = strlen(match);
                 if (len >= mlen && strcmp(dir + len - mlen, match) == 0) {
-                    TRACE("WINEDLLPATH contains spout2pw-dlls directory\n");
+                    TRACE("WINEDLLPATH contains spoutwire-dlls directory\n");
                     found = 1;
                     break;
                 }
@@ -914,7 +914,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             char *last_sep = strrchr(exe_utf8, '\\');
             if (last_sep) {
                 *last_sep = '\0';
-                // Strip the x86_64-windows/ component to get spout2pw-dlls/
+                // Strip the x86_64-windows/ component to get spoutwire-dlls/
                 // (Wine's find_builtin_dll looks for x86_64-unix/ subdir within WINEDLLPATH)
                 char *second_sep = strrchr(exe_utf8, '\\');
                 if (second_sep) {
@@ -932,7 +932,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 
     if (!found) {
-        ERR("Spout2 not configured in WINEDLLPATH\n");
+        ERR("spoutwire not configured in WINEDLLPATH\n");
         return 0;
     }
 

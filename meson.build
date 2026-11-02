@@ -1,4 +1,4 @@
-project('spout2pw', ['c','cpp'],
+project('spoutwire', ['c','cpp'],
     meson_version: '>=1.1'
 )
 
@@ -74,11 +74,11 @@ funnel = libfunnel_proj.get_variable('funnel')
 funnel_vk = libfunnel_proj.get_variable('funnel_vk')
 
 windows_src = [
-  'src/spout2pw.c',
+  'src/spoutwire.c',
 ]
 
 unix_src = [
-  'src/spout2pw_unix.c',
+  'src/spoutwire_unix.c',
 ]
 
 windows_compiler_args = [
@@ -146,8 +146,8 @@ foreach p : unix_lib_paths
   unix_link_args += ['-L' + p]
 endforeach
 
-spout2pw_bin = executable(
-  'spout2pw',
+spoutwire_bin = executable(
+  'spoutwire',
   windows_src,
   name_prefix: '',
   c_args: windows_compiler_args,
@@ -159,14 +159,14 @@ spout2pw_bin = executable(
 # Minimal DLL with DllMain that initializes the Wine unixlib handle.
 # This DLL is loaded as LO_BUILTIN (via the placeholder marker) so that
 # __wine_init_unix_call() succeeds from its DllMain, setting the global
-# __wine_unixlib_handle used by spout2pw.exe's ServiceMain.
-spout2pw_dll_src = [
-  'src/spout2pw_dll_main.c',
+# __wine_unixlib_handle used by spoutwire.exe's ServiceMain.
+spoutwire_dll_src = [
+  'src/spoutwire_dll_main.c',
 ]
 
-spout2pw_dll = shared_library(
-  'spout2pw_dll',
-  spout2pw_dll_src,
+spoutwire_dll = shared_library(
+  'spoutwire_dll',
+  spoutwire_dll_src,
   name_prefix: '',
   c_args: windows_compiler_args,
   link_args: windows_link_args,
@@ -178,7 +178,7 @@ spout2pw_dll = shared_library(
 )
 
 unixlib = shared_library(
-  'spout2pw_unixlib',
+  'spoutwire_unixlib',
   unix_src,
   name_prefix: '',
   c_args: unix_compiler_args,

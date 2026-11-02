@@ -1,13 +1,15 @@
-# Spout2PW: Spout2 to PipeWire bridge
+# spoutwire: Spout2 to PipeWire bridge
+
+spoutwire is a fork of [spout2pw](https://github.com/hoshinolina/spout2pw):
 
 **[Spout2PW website](https://spout2pw.lina.yt)**
 
 [![Github-sponsors](https://img.shields.io/github/sponsors/hoshinolina?label=Sponsor&logo=GitHub)](https://lina.yt/sponsor)
 [![Ko-Fi](https://shields.io/badge/ko--fi-Tip-ff5f5f?logo=ko-fi)](https://lina.yt/kofi)
 
-**If you like this, please help support me with the links above!**
+**If you like this, please help support hoshinolina with the links above!**
 
-See the [wiki page](https://github.com/hoshinolina/spout2pw/wiki) for installation and usage instructions.
+See the [wiki page](https://github.com/hoshinolina/spout2pw/wiki) for installation and usage instructions, but make sure to replace `spout2pw` with `spoutwire`. E.g. `~/spout2pw/spout2pw.sh umu-run your-favorite-app.exe` becomes `~/spoutwire/spoutwire.sh umu-run your-favorite-app.exe`.
 
 ## Building
 
@@ -47,29 +49,29 @@ To use this project on NixOS or by using the nix package manager, follow the fol
 - Add the following to your `flake.nix`:
 
     ```nix
-    inputs.spout2pw = {
-      url = "git+https://github.com/tasokait/spout2pw.git";
+    inputs.spoutwire = {
+      url = "git+https://github.com/tasokait/spoutwire.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     ```
-  Note that the `github:tasokait/spout2pw` URL will not work, because of how git submodules are handled in nix.
+  Note that the `github:tasokait/spoutwire` URL will not work, because of how git submodules are handled in nix.
 
-- *(Optionally)* Add `inputs.spout2pw.overlays.default` to [your overlays](https://wiki.nixos.org/wiki/Overlays#Using_overlays).
+- *(Optionally)* Add `inputs.spoutwire.overlays.default` to [your overlays](https://wiki.nixos.org/wiki/Overlays#Using_overlays).
 
-- Add `pkgs.spout2pw` (or `inputs.spout2pw.packages.x86_64-linux.spout2pw` if you did not add the overlay) to your installation using [home-manager](https://github.com/nix-community/home-manager) (recommended):
+- Add `pkgs.spoutwire` (or `inputs.spoutwire.packages.x86_64-linux.spoutwire` if you did not add the overlay) to your installation using [home-manager](https://github.com/nix-community/home-manager) (recommended):
 
   ```nix
   home.packages = with pkgs; [
-    spout2pw
+    spoutwire
     umu-launcher
   ];
   ```
 
-  You may also install the package without home-manager or use the package directly within a bash script: `${lib.getExe pkgs.spout2pw}`.
+  You may also install the package without home-manager or use the package directly within a bash script: `${lib.getExe pkgs.spoutwire}`.
 
-Then you can use `spout2pw` like it is used on other linux distributions.
+Then you can use `spoutwire` like it is used on other linux distributions.
 
-If you want a desktop icon for the app you are starting with `spout2pw` you can use the following with home-manager:
+If you want a desktop icon for the app you are starting with `spoutwire` you can use the following with home-manager:
 
 ```nix
 {
@@ -92,7 +94,7 @@ in
     vnyan = {
       name = "VNyan";
       genericName = "3D VTubing";
-      exec = "env PROTONPATH=${protonPath} ${lib.getExe pkgs.spout2pw} -quiet ${lib.getExe pkgs.umu-launcher} ${vNyanFolder}/VNyan.exe -portable -p ${config.home.username}";
+      exec = "env PROTONPATH=${protonPath} ${lib.getExe pkgs.spoutwire} -quiet ${lib.getExe pkgs.umu-launcher} ${vNyanFolder}/VNyan.exe -portable -p ${config.home.username}";
       icon = "${vNyanFolder}/VNyan.ico";
       terminal = false;
       categories = [

@@ -22,7 +22,7 @@
 #include <funnel.h>
 #include <drm/drm_fourcc.h>
 
-#include "spout2pw_unix.h"
+#include "spoutwire_unix.h"
 #include <vulkan/vulkan_core.h>
 #include <ntstatus.h>
 #include "wine/server.h"
@@ -248,7 +248,7 @@ static void unlock_texture(void *receiver) {
         return;
 }
 
-static const char *const appName = "Spout2Pw";
+static const char *const appName = "spoutwire";
 static const char *const instanceExtensionNames[] = {
     "VK_EXT_debug_utils",
 
@@ -335,7 +335,7 @@ static VkBool32 vulkan_message(VkDebugUtilsMessageSeverityFlagBitsEXT severity,
 /*static inline void server_log(const char* logtype,const char* fmt,...){
     va_list arg;
     char _buf[512];
-    int __len = snprintf(_buf,sizeof(_buf),"[spout2pw:%s]",logtype);
+    int __len = snprintf(_buf,sizeof(_buf),"[spoutwire:%s]",logtype);
     va_start(arg, fmt);
     int _len = vsnprintf(_buf + __len, sizeof(_buf) - __len,fmt, arg);
     va_end(arg);
@@ -965,7 +965,7 @@ static NTSTATUS startup(void *args) {
 
         free(layerProperties);
 
-        if (getflag("SPOUT2PW_VALIDATION")) {
+        if (getflag("SPOUTWIRE_VALIDATION")) {
             if (foundLayers >= sizeof(layerNames) / sizeof(const char *)) {
                 createInfo.enabledLayerCount =
                     sizeof(layerNames) / sizeof(const char *);
@@ -1215,19 +1215,19 @@ static NTSTATUS startup(void *args) {
         return errno_to_status(-ret);
     }
 
-    const char *appname = getenv("SPOUT2PW_APPNAME");
+    const char *appname = getenv("SPOUTWIRE_APPNAME");
     if (appname && appname[0]) {
         funnel_set_app_name(funnel, appname);
 
         char *appid;
-        assert(asprintf(&appid, "yt.lina.spout2pw.%s", appname));
+        assert(asprintf(&appid, "dev.liquidnya.tasokait.spoutwire.%s", appname));
         funnel_set_app_id(funnel, appid);
         free(appid);
     } else {
-        ret = funnel_set_app_name(funnel, "Spout2PW");
+        ret = funnel_set_app_name(funnel, "spoutwire");
         assert(ret == 0);
 
-        ret = funnel_set_app_id(funnel, "yt.lina.spout2pw");
+        ret = funnel_set_app_id(funnel, "dev.liquidnya.tasokait.spoutwire");
         assert(ret == 0);
     }
 
@@ -1282,7 +1282,7 @@ static NTSTATUS create_source(void *args) {
         goto free_stream;
     }
 
-    const char *instance_name = getenv("SPOUT2PW_INSTANCE");
+    const char *instance_name = getenv("SPOUTWIRE_INSTANCE");
     if (instance_name && instance_name[0]) {
         funnel_stream_set_instance(stream, instance_name, true);
     }
@@ -1880,7 +1880,7 @@ static NTSTATUS _teardown(void *args) {
 }
 
 __attribute__((constructor)) static void initenv(){
-    wine10 = getenv("SPOUT2PW_WINE10");
+    wine10 = getenv("SPOUTWIRE_WINE10");
 }
 
 static NTSTATUS _getenv(void *args) {

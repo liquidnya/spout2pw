@@ -1,7 +1,7 @@
-diff --git a/misc/spout2pw.sh b/misc/spout2pw.sh
+diff --git a/misc/spoutwire.sh b/misc/spoutwire.sh
 index 70e1b99..26b5c71 100755
---- a/misc/spout2pw.sh
-+++ b/misc/spout2pw.sh
+--- a/misc/spoutwire.sh
++++ b/misc/spoutwire.sh
 @@ -96,6 +96,7 @@ check_pipewire() {
  
  find_gbm_backends() {

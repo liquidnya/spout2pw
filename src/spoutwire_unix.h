@@ -47,7 +47,7 @@ struct receiver_params {
 #define RECEIVER_TEXTURE_UPDATED (1 << 1)
 #define RECEIVER_TEXTURE_INVALID (1 << 2)
 
-WINE_DEFAULT_DEBUG_CHANNEL(spout2pw);
+WINE_DEFAULT_DEBUG_CHANNEL(spoutwire);
 
 struct source_info {
     uint64_t resource_size;
@@ -118,7 +118,7 @@ struct reqid_params {
     unsigned int req;
 };
 
-enum spout2pw_funcs {
+enum spoutwire_funcs {
     unix_getenv,
     unix_startup,
     unix_teardown,

@@ -1,0 +1,13 @@
+diff --git a/misc/spoutwire.sh b/misc/spoutwire.sh
+index 0737cc7..26b5c71 100755
+--- a/misc/spoutwire.sh
++++ b/misc/spoutwire.sh
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env bash
+ set -E
+ 
+-spoutwire="$(dirname "$(realpath "$0")")"
++spoutwire="@SPOUTWIRE_PATH@/share/spoutwire"
+ 
+ setup_logging() {
+     zenity=

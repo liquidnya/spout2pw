@@ -1,5 +1,5 @@
 name: Set up and build
-description: Builds spout2pw
+description: Builds spoutwire
 inputs:
   target:
     description: Target architecture for dependencies
@@ -46,5 +46,5 @@ runs:
         set -e
 
         mkdir release
-        mv build/pkg "spout2pw-${{ inputs.version }}"
-        tar cvzf release/"spout2pw-${{ inputs.version }}-bin".tar.gz "spout2pw-${{ inputs.version }}"
+        mv build/pkg "spoutwire-${{ inputs.version }}"
+        tar cvzf release/"spoutwire-${{ inputs.version }}-bin".tar.gz "spoutwire-${{ inputs.version }}"

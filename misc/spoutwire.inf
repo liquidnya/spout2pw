@@ -1,0 +1,20 @@
+[Version]
+Signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = spoutwireFiles
+
+[DefaultInstall.Services]
+AddService = spoutwire,0,spoutwireService
+
+[spoutwireFiles]
+spoutwire.exe,,,1
+spoutwire.dll,,,1
+
+[spoutwireService]
+Description="Spout to PipeWire bridge"
+DisplayName="spoutwire"
+ServiceBinary="%11%\spoutwire.exe"
+ServiceType=288
+StartType=2
+ErrorControl=1
